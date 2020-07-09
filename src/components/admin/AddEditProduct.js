@@ -81,7 +81,7 @@ class AddEditProduct extends Component {
             }
             formData.append("product", JSON.stringify(this.state.fields))
             console.log(JSON.stringify(formData))
-            ProductApi.saveImage(formData,
+            ProductApi.saveProduct(formData,
                 (res) => {
                     console.log("Resp: " + res);
                     this.setState({
