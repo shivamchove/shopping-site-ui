@@ -29,6 +29,7 @@ class AddEditProduct extends Component {
             }
         },
             (error) => {
+                
                 this.setState({
                     cateList: [],
                     pageMessage: (<div className="alert alert-danger"><strong>Error: </strong>{error}</div>)

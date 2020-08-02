@@ -2,7 +2,6 @@ import axios from "axios"
 import { Common } from "../config/Common"
 
 let ApiHandler={
-
     getRequest:(url, successCallback, failCallback)=>{
         console.log("URL: "+url);
         let headerVal=Common.getAuthHeader();
