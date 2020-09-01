@@ -11,7 +11,8 @@ class MainContent extends Component {
             <div>
                 <div >
                     <Switch>
-                        <Route render={(props)=><Login />} path="/login" ></Route>
+                        {/* <Route render={(props)=><Login />} path="/login" exact ></Route> */}
+                        <Route  path= {["/", "/login" ]} exact component={Login} ></Route>
                         <Route path="/admin" component={AdminHome}></Route>
                     </Switch>
                 </div>

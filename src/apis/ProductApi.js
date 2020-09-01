@@ -14,7 +14,13 @@ let ProductApi ={
         let url=API_BASE_URL+'product/fileupload';
         ApiHandler.postFileRequest(url, formData, callback, errorcallback);
         
-      }
+    },
+    getProductById:(callback, errorcallback, id)=>{
+    
+        let url=API_BASE_URL+'product/getbyid/'+id;
+        ApiHandler.getRequest(url, callback, errorcallback);
+        
+    }
 
 }
 

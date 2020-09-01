@@ -14,8 +14,8 @@ class AdminHome extends Component {
             <div style={{paddingTop:'50px', minHeight:'500px'}}>
                 <Switch>
                     <Route path="/admin" exact component={Products}></Route>
-                    <Route path="/admin/products" component={Products}></Route>
-                    <Route path="/admin/add-product" component={AddEditProduct}></Route>
+                    <Route path={["/admin/products"]} component={Products}></Route>
+                    <Route path={["/admin/add-product", "/admin/add-product/:productId"]} exact component={AddEditProduct}></Route>
                     <Route path="/admin/categories" component={Categories}></Route>
                     <Route path="/admin/add-category" component={AddEditCategory}></Route>
                 </Switch>

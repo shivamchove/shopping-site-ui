@@ -14,7 +14,7 @@ class Products extends Component {
                  searchText:'',
                  pageNo:0,
                  pageSize:5,
-                 sortBy:'id'
+                 sortBy:'productName'
              },
              productList:{},
              pageMessage:''
@@ -109,7 +109,7 @@ class Products extends Component {
                             <td>{product.price}</td>
                             <td>
                                 <i className="fa fa-remove fa-lg pointer red"></i>
-                                <i className="fa fa-edit fa-lg pointer blue left20"></i>
+                                <NavLink to={"/admin/add-product/"+product.id} className="fa fa-edit fa-lg pointer blue left20"></NavLink>
                                 <i className="fa fa fa-newspaper-o fa-lg pointer blue left20"></i>
                             </td>
                         </tr>

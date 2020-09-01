@@ -16,14 +16,22 @@ class AddEditProduct extends Component {
             pageMessage: '',
             tmt: '',
             productImages: [],
-            cateList: []
+            cateList: [],
+            productId:''
         }
     }
     componentDidMount = () => {
         this.fetchCategory();
+        const { match: { params } } = this.props;
+        console.log(this.props)
+        if(params.productId!=null && params.productId>0){
+            this.fetchProductById(params.productId);
+        }
+
     }
     fetchCategory = () => {
         CategoryApi.getAllCategory((res) => {
+            
             if (res.hasOwnProperty("content")) {
                 this.setState({ cateList: res.content })
             }
@@ -35,6 +43,27 @@ class AddEditProduct extends Component {
                     pageMessage: (<div className="alert alert-danger"><strong>Error: </strong>{error}</div>)
                 })
             }, "", "cateName")
+    }
+    fetchProductById = (productId) => {
+        ProductApi.getProductById((res) => {
+            console.log("Product details fetched:"+JSON.stringify(res));
+            if (res.hasOwnProperty("productName")) {
+                this.setState({ 
+                    fields: {
+                        productName: res.productName,
+                        productDesc: res.productDesc,
+                        price: res.price,
+                        cateId: res.cateId
+                    }
+                 })
+
+            }
+        },
+        (error) => {
+            this.setState({
+                pageMessage: (<div className="alert alert-danger"><strong>Error: </strong>{error}</div>)
+            })
+        }, productId)
     }
     changeHandler = (e) => {
         this.setState({ pageMessage: "" });
@@ -127,7 +156,7 @@ class AddEditProduct extends Component {
                                 <form name="userForm" onSubmit={this.onFormSubmit.bind(this)}>
                                     <div className="form-group">
                                         <label htmlFor="cateId">Category:</label>
-                                        <select name="cateId" className="form-control" defaultValue={this.state.fields.cateId} onChange={this.changeHandler.bind(this)}>
+                                        <select name="cateId" className="form-control" defaultValue={this.state.fields.cateId} value={this.state.fields.cateId} onChange={this.changeHandler.bind(this)}>
                                             <option value="-1">-Select Category-</option>
                                             {this.state.cateList.length > 0 ?
                                                 this.state.cateList.map((cate) => <option key={cate.id} value={cate.id}>{cate.cateName}</option>) : ''}

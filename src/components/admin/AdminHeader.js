@@ -25,7 +25,7 @@ class AdminHeader extends Component {
                             
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/category" activeClassName="active">Sign Out</NavLink>
+                            <NavLink className="nav-link" to="/login" activeClassName="active">Sign Out</NavLink>
                         </li>
                     </ul>
                 </div>
