@@ -16,6 +16,8 @@ class AdminHome extends Component {
                     <Route path="/admin" exact component={Products}></Route>
                     <Route path={["/admin/products"]} component={Products}></Route>
                     <Route path={["/admin/add-product", "/admin/add-product/:productId"]} exact component={AddEditProduct}></Route>
+                    {/* Route path={["/admin/add-product", "/admin/add-product/:productId"]} exact render={({history}) => (<AddEditProduct {...this.props} history={history} />
+  )} ></Route> */}
                     <Route path="/admin/categories" component={Categories}></Route>
                     <Route path="/admin/add-category" component={AddEditCategory}></Route>
                 </Switch>

@@ -64,6 +64,27 @@ class Products extends Component {
             this.getAllProducts()
         });
     }
+    deleteHandler=(id)=>{
+        ProductApi.deleteById((resp)=>{
+            let prodlist=this.state.productList.content.filter(prod=>prod.id!==id);
+            this.setState({
+                productList:{
+                    ...this.state.productList,
+                    content:prodlist
+                },
+                pageMessage:(<div className="alert alert-success">{resp}</div>)
+            });
+            let _this=this;
+            setTimeout(function(){_this.getAllProducts();},2000)
+            
+        },
+        (error)=>{
+            this.setState({
+                productList:[],
+                pageMessage:(<div className="alert alert-danger"><strong>Error: </strong>{error}</div>)
+            })
+        }, id)
+    }
     render() {
         
         return (
@@ -108,7 +129,7 @@ class Products extends Component {
                             <td>{product.productDesc}</td>
                             <td>{product.price}</td>
                             <td>
-                                <i className="fa fa-remove fa-lg pointer red"></i>
+                                <i className="fa fa-remove fa-lg pointer red" onClick={()=>this.deleteHandler(product.id)}></i>
                                 <NavLink to={"/admin/add-product/"+product.id} className="fa fa-edit fa-lg pointer blue left20"></NavLink>
                                 <i className="fa fa fa-newspaper-o fa-lg pointer blue left20"></i>
                             </td>

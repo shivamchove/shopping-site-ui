@@ -9,15 +9,23 @@ let ProductApi ={
         ApiHandler.getRequest(url, callback, errorcallback);
        
     },
-    saveProduct:(formData, callback, errorcallback)=>{
+    addEditProduct:(formData, callback, errorcallback)=>{
     
-        let url=API_BASE_URL+'product/fileupload';
+        let url=API_BASE_URL+'product/add-update';
+        console.log(formData);
         ApiHandler.postFileRequest(url, formData, callback, errorcallback);
         
     },
     getProductById:(callback, errorcallback, id)=>{
     
         let url=API_BASE_URL+'product/getbyid/'+id;
+        ApiHandler.getRequest(url, callback, errorcallback);
+        
+    },
+    deleteById:(callback, errorcallback, id)=>{
+    
+        let url=API_BASE_URL+'product/delete/'+id;
+        console.log("URL:: "+url);
         ApiHandler.getRequest(url, callback, errorcallback);
         
     }

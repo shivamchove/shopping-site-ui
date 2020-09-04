@@ -11,20 +11,24 @@ class AddEditProduct extends Component {
                 productName: '',
                 productDesc: '',
                 price: '',
-                cateId: ''
+                cateId: '',
+                id:''
             },
             pageMessage: '',
             tmt: '',
             productImages: [],
-            cateList: [],
-            productId:''
+            cateList: []
         }
     }
     componentDidMount = () => {
         this.fetchCategory();
         const { match: { params } } = this.props;
+        
         console.log(this.props)
         if(params.productId!=null && params.productId>0){
+            this.setState({
+                fields: { ...this.state.fields, id: params.productId }
+            });
             this.fetchProductById(params.productId);
         }
 
@@ -50,6 +54,7 @@ class AddEditProduct extends Component {
             if (res.hasOwnProperty("productName")) {
                 this.setState({ 
                     fields: {
+                        ...this.state.fields,
                         productName: res.productName,
                         productDesc: res.productDesc,
                         price: res.price,
@@ -110,8 +115,9 @@ class AddEditProduct extends Component {
                 formData.append("productImage", this.state.productImages[i]);
             }
             formData.append("product", JSON.stringify(this.state.fields))
-            console.log(JSON.stringify(formData))
-            ProductApi.saveProduct(formData,
+            console.log(JSON.stringify(this.state.fields));
+            let isEdit=this.state.fields.id>0 ? true : false;
+            ProductApi.addEditProduct(formData,
                 (res) => {
                     console.log("Resp: " + res);
                     this.setState({
@@ -120,10 +126,16 @@ class AddEditProduct extends Component {
                             productName: '',
                             productDesc: '',
                             price: '',
-                            cateId:"-1"
+                            cateId:"-1",
+                            id:''
                         },
                         productImages:[]
                     });
+                    if(isEdit){
+                        setTimeout(()=>{this.props.history.push('/admin/products');},2000)
+                        
+                    }
+                    
                 },
                 (err) => {
                     console.log(err);
@@ -141,7 +153,7 @@ class AddEditProduct extends Component {
         return (
             <div className="container">
                 <div className="row bottom10">
-                    <div className="col-sm-6"><h2>Add Product</h2></div>
+                    <div className="col-sm-6"><h2>{this.state.fields.id>0 ? "Update":"Add"} Product</h2></div>
                     <div className="col-sm-6 text-right"><NavLink to="/admin/products" className="btn btn-outline-primary btn-sm">Products</NavLink></div>
                 </div>
                 <hr />
@@ -154,9 +166,10 @@ class AddEditProduct extends Component {
                                     {this.state.pageMessage}
                                 </div>
                                 <form name="userForm" onSubmit={this.onFormSubmit.bind(this)}>
+                                
                                     <div className="form-group">
                                         <label htmlFor="cateId">Category:</label>
-                                        <select name="cateId" className="form-control" defaultValue={this.state.fields.cateId} value={this.state.fields.cateId} onChange={this.changeHandler.bind(this)}>
+                                        <select name="cateId" className="form-control"  value={this.state.fields.cateId} onChange={this.changeHandler.bind(this)}>
                                             <option value="-1">-Select Category-</option>
                                             {this.state.cateList.length > 0 ?
                                                 this.state.cateList.map((cate) => <option key={cate.id} value={cate.id}>{cate.cateName}</option>) : ''}
@@ -174,10 +187,10 @@ class AddEditProduct extends Component {
                                         <label htmlFor="price">Price:</label>
                                         <input type="email" id="price" name="price" value={this.state.fields.price} onChange={this.changeHandler.bind(this)} className="form-control" placeholder="Enter price" />
                                     </div>
-                                    <div className="form-group">
+                                    {/* <div className="form-group">
                                         <label htmlFor="price">Product images:</label>
                                         <input type="file" name="productImages" onChange={this.fileChangeHandler.bind(this)} className="form-control" multiple />
-                                    </div>
+                                    </div> */}
                                     <div className="form-group">
                                         <button type="submit" onClick={this.onFormSubmit} className="btn btn-info">Submit</button>
                                     </div>
